@@ -13,6 +13,11 @@ public class PremiumAccount extends Account {
 
     @Override
     protected boolean canWithdraw(int amount) {
+
+        if (getBalance() + OVERDRAFT_LIMIT < amount){
+
+        }
+
         return getBalance() + OVERDRAFT_LIMIT >= amount;
     }
 }

@@ -36,9 +36,17 @@ public final class AccountData {
 
     @Override
     public String toString() {
-        return "Account id: " + id + '\n' +
-                "Name: " + name + '\n' +
-                "Email: " + email + '\n' +
-                "Balance: " + balance;
+        if(balance < 0){
+            return "ACCOUNT IS OVERDRAWN!" + '\n' +
+                    "Account id: " + id + '\n' +
+                    "Name: " + name + '\n' +
+                    "Email: " + email + '\n' +
+                    "Balance: " + balance;
+        }else {
+            return "Account id: " + id + '\n' +
+                    "Name: " + name + '\n' +
+                    "Email: " + email + '\n' +
+                    "Balance: " + balance;
+        }
     }
 }

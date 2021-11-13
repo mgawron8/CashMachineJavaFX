@@ -1,5 +1,6 @@
 package rocks.zipcode.atm;
 
+import com.sun.tools.javac.comp.Flow;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -16,53 +17,80 @@ import javafx.scene.layout.FlowPane;
  */
 public class CashMachineApp extends Application {
 
-    private TextField field = new TextField();
+    private TextField fieldlogin = new TextField();
+    private TextField fielddeposit = new TextField();
+    private TextField fieldwithdraw = new TextField();
     private CashMachine cashMachine = new CashMachine(new Bank());
 
     private Parent createContent() {
         VBox vbox = new VBox(10);
         vbox.setPrefSize(600, 600);
+        vbox.setStyle("");
 
         TextArea areaInfo = new TextArea();
 
-        Button btnSubmit = new Button("Set Account ID");
-        btnSubmit.setOnAction(e -> {
-            int id = Integer.parseInt(field.getText());
-            cashMachine.login(id);
-
-            areaInfo.setText(cashMachine.toString());
-        });
-
+        Button btnSubmit = new Button("Login");
         Button btnDeposit = new Button("Deposit");
-        btnDeposit.setOnAction(e -> {
-            Float amount = Float.parseFloat(field.getText());
-            cashMachine.deposit(amount);
-
-            areaInfo.setText(cashMachine.toString());
-        });
-
         Button btnWithdraw = new Button("Withdraw");
+        Button btnLogOut = new Button("Logout");
+
+        btnDeposit.setDisable(true);
+        btnWithdraw.setDisable(true);
+        btnLogOut.setDisable(true);
+
+        // code for what the login button does
+        btnSubmit.setOnAction(e -> {
+            int id = Integer.parseInt(fieldlogin.getText());
+            cashMachine.login(id);
+            fieldlogin.setText("");
+            btnDeposit.setDisable(false);
+            btnWithdraw.setDisable(false);
+            btnLogOut.setDisable(false);
+            btnSubmit.setDisable(true);
+            areaInfo.setText(cashMachine.toString());
+
+        });
+
+        //code for what the deposit button does
+        btnDeposit.setOnAction(e -> {
+            Float amount = Float.parseFloat(fielddeposit.getText());
+            cashMachine.deposit(amount);
+            fielddeposit.setText("");
+            areaInfo.setText(cashMachine.toString());
+        });
+
+       //code for what the withdraw button does
         btnWithdraw.setOnAction(e -> {
-            Float amount = Float.parseFloat(field.getText());
+            Float amount = Float.parseFloat(fieldwithdraw.getText());
             cashMachine.withdraw(amount);
-
+            fieldwithdraw.setText("");
             areaInfo.setText(cashMachine.toString());
         });
 
-        Button btnExit = new Button("Exit");
-        btnExit.setOnAction(e -> {
-            cashMachine.exit();
-
+        //code for what the logout button does
+        btnLogOut.setOnAction(e -> {
+            cashMachine.logOut();
+            btnDeposit.setDisable(true);
+            btnWithdraw.setDisable(true);
+            btnLogOut.setDisable(true);
+            btnSubmit.setDisable(false);
             areaInfo.setText(cashMachine.toString());
         });
 
-        FlowPane flowpane = new FlowPane();
+        FlowPane flowpaneID = new FlowPane();
+        flowpaneID.getChildren().add(fieldlogin);
+        flowpaneID.getChildren().add(btnSubmit);
+        flowpaneID.getChildren().add(btnLogOut);
 
-        flowpane.getChildren().add(btnSubmit);
-        flowpane.getChildren().add(btnDeposit);
-        flowpane.getChildren().add(btnWithdraw);
-        flowpane.getChildren().add(btnExit);
-        vbox.getChildren().addAll(field, flowpane, areaInfo);
+        FlowPane flowpaneDeposit = new FlowPane();
+        flowpaneDeposit.getChildren().add(fielddeposit);
+        flowpaneDeposit.getChildren().add(btnDeposit);
+
+        FlowPane flowpaneWithdraw = new FlowPane();
+        flowpaneWithdraw.getChildren().add(fieldwithdraw);
+        flowpaneWithdraw.getChildren().add(btnWithdraw);
+
+        vbox.getChildren().addAll(flowpaneID,flowpaneDeposit,flowpaneWithdraw, areaInfo);
         return vbox;
     }
 

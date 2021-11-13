@@ -22,11 +22,15 @@ public class Bank {
         )));
 
         accounts.put(911, new PremiumAccount(new AccountData(
-                911, "Emergency fund", "pleasecalltheauthorities@notreal.com", -100
+                911, "Emergency fund", "pleaseMyFamilyIsStarving@notreal.com", -100
         )));
 
         accounts.put(1, new BasicAccount(new AccountData(
                 1,"John Doe", "ThisDudeIsOld@gmail.com", 10000000
+        )));
+
+        accounts.put(2, new PremiumAccount(new AccountData(
+                2,"Theo", "iAmATodler@gmail.com", 0
         )));
     }
 

@@ -1,6 +1,8 @@
 package rocks.zipcode.atm;
 
 import com.sun.tools.javac.comp.Flow;
+import javafx.scene.control.ComboBox;
+import rocks.zipcode.atm.bank.AccountData;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -33,20 +35,33 @@ public class CashMachineApp extends Application {
         Button btnDeposit = new Button("Deposit");
         Button btnWithdraw = new Button("Withdraw");
         Button btnLogOut = new Button("Logout");
+        Button btnNewAccount = new Button("Create New Account");
 
         btnDeposit.setDisable(true);
         btnWithdraw.setDisable(true);
         btnLogOut.setDisable(true);
 
+
+        ComboBox loginChoices = new ComboBox();
+        loginChoices.getItems().add("1");
+        loginChoices.getItems().add("2");
+        loginChoices.getItems().add("911");
+        loginChoices.getItems().add("1000");
+        loginChoices.getItems().add("2000");
+
+
+
         // code for what the login button does
         btnSubmit.setOnAction(e -> {
-            int id = Integer.parseInt(fieldlogin.getText());
+            String loginChoice = (String) loginChoices.getValue();
+            int id = Integer.parseInt(loginChoice);
             cashMachine.login(id);
             fieldlogin.setText("");
             btnDeposit.setDisable(false);
             btnWithdraw.setDisable(false);
             btnLogOut.setDisable(false);
             btnSubmit.setDisable(true);
+            btnNewAccount.setDisable(true);
             areaInfo.setText(cashMachine.toString());
 
         });
@@ -74,11 +89,16 @@ public class CashMachineApp extends Application {
             btnWithdraw.setDisable(true);
             btnLogOut.setDisable(true);
             btnSubmit.setDisable(false);
+            btnNewAccount.setDisable(false);
             areaInfo.setText(cashMachine.toString());
+        });
+        //code for create a new account button
+        btnNewAccount.setOnAction(e ->{
+
         });
 
         FlowPane flowpaneID = new FlowPane();
-        flowpaneID.getChildren().add(fieldlogin);
+        flowpaneID.getChildren().add(loginChoices);
         flowpaneID.getChildren().add(btnSubmit);
         flowpaneID.getChildren().add(btnLogOut);
 
@@ -90,7 +110,7 @@ public class CashMachineApp extends Application {
         flowpaneWithdraw.getChildren().add(fieldwithdraw);
         flowpaneWithdraw.getChildren().add(btnWithdraw);
 
-        vbox.getChildren().addAll(flowpaneID,flowpaneDeposit,flowpaneWithdraw, areaInfo);
+        vbox.getChildren().addAll(flowpaneID,flowpaneDeposit,flowpaneWithdraw, areaInfo,btnNewAccount);
         return vbox;
     }
 

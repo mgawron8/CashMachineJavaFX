@@ -55,7 +55,7 @@ public class CashMachine {
 
     @Override
     public String toString() {
-        return accountData != null ? accountData.toString() : "Try a different account and hit submit.";
+        return accountData != null ? accountData.toString() : "Try a different account and hit Login.";
     }
 
     private <T> void tryCall(Supplier<ActionResult<T> > action, Consumer<T> postAction) {
